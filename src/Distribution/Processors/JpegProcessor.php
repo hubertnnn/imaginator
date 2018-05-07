@@ -3,6 +3,7 @@
 namespace HubertNNN\Imaginator\Distribution\Processors;
 
 use HubertNNN\Imaginator\Contracts\Distribution\ImageProcessor;
+use Intervention\Image\Constraint;
 
 class JpegProcessor extends BaseInterventionProcessor implements ImageProcessor
 {
@@ -16,13 +17,9 @@ class JpegProcessor extends BaseInterventionProcessor implements ImageProcessor
     {
         $image = $this->load($source);
 
-        $width = isset($formatParameters['width']) ? $formatParameters['width'] : 0;
-        $height = isset($formatParameters['height']) ? $formatParameters['height'] : 0;
+        $this->resize($image, $formatParameters);
 
-        $quality = isset($formatParameters['quality']) ? $formatParameters['quality'] : 90;
-
-
-        $image->resize($width, $height);
+        $quality = self::parameter($formatParameters, 'quality', 90);
 
         return $this->save($image, $target, 'jpg', $quality);
     }

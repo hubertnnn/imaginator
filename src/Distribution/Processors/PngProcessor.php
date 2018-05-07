@@ -16,10 +16,7 @@ class PngProcessor extends BaseInterventionProcessor implements ImageProcessor
     {
         $image = $this->load($source);
 
-        $width = isset($formatParameters['width']) ? $formatParameters['width'] : 0;
-        $height = isset($formatParameters['height']) ? $formatParameters['height'] : 0;
-
-        $image->resize($width, $height);
+        $this->resize($image, $formatParameters);
 
         return $this->save($image, $target, 'png');
     }

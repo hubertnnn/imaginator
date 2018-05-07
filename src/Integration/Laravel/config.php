@@ -127,6 +127,8 @@ return [
                 'quality' => 80,
                 'width' => 800,
                 'height' => 600,
+                'upscale' => true,
+                'aspectRatio' => true,
             ],
         ],
 

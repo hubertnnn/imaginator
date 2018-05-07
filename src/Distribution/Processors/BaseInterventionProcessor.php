@@ -4,6 +4,7 @@ namespace HubertNNN\Imaginator\Distribution\Processors;
 
 use HubertNNN\Imaginator\Contracts\Distribution\ImageProcessor;
 use HubertNNN\Imaginator\Utilities\FileUtils;
+use Intervention\Image\Constraint;
 use Intervention\Image\Image;
 
 abstract class BaseInterventionProcessor implements ImageProcessor
@@ -38,5 +39,29 @@ abstract class BaseInterventionProcessor implements ImageProcessor
 
         // file_put_contents returns the number of bytes that were written to the file, or FALSE on failure.
         return $saved !== false;
+    }
+
+    /**
+     * @param Image $image
+     * @param mixed[] $formatParameters
+     */
+    protected function resize($image, $formatParameters)
+    {
+        $width = self::parameter($formatParameters, 'width', null);
+        $height = self::parameter($formatParameters, 'height', null);
+        $aspectRatio = self::parameter($formatParameters, 'aspectRatio', true);
+        $upscale = self::parameter($formatParameters, 'upscale', true);
+
+        $image->resize($width, $height, function (Constraint $constraint) use($aspectRatio, $upscale) {
+            if($aspectRatio)
+                $constraint->aspectRatio();
+            if(!$upscale)
+                $constraint->upsize();
+        });
+    }
+
+    protected static function parameter($formatParameters, $parameter, $default)
+    {
+        return isset($formatParameters[$parameter]) ? $formatParameters[$parameter] : $default;
     }
 }
