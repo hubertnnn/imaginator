@@ -3,14 +3,14 @@
 namespace HubertNNN\Imaginator\Integration\Laravel;
 
 use Carbon\Carbon;
-use HubertNNN\Imaginator\Contracts\ImageDistributor;
+use HubertNNN\Imaginator\Contracts\Distribution\ImageDistributor;
 
 class LaravelDistributor implements ImageDistributor
 {
-    public function send($image)
+    public function send($image, $name)
     {
         return response()
-            ->download($image)
+            ->download($image, $name)
             ->setPublic()
             ->setMaxAge(31536000) //1 year
             ->setLastModified(Carbon::now())

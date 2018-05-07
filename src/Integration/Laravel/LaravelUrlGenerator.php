@@ -2,7 +2,7 @@
 
 namespace HubertNNN\Imaginator\Integration\Laravel;
 
-use HubertNNN\Imaginator\Contracts\ImageUrlGenerator;
+use HubertNNN\Imaginator\Contracts\Provision\ImageUrlGenerator;
 
 class LaravelUrlGenerator implements ImageUrlGenerator
 {

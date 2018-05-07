@@ -20,7 +20,7 @@ return [
     */
 
     'security' => [
-        'keyGenerator' => \HubertNNN\Imaginator\KeyGenerators\Sha1KeyGenerator::class,
+        'keyGenerator' => 'sha1',
         'masterKey' => hash('sha256', env('APP_KEY')),
     ],
 
@@ -59,9 +59,8 @@ return [
     */
 
     'providers' => [
-        'dummy' => \HubertNNN\Imaginator\Providers\DummyProvider::class,
         [
-            \HubertNNN\Imaginator\Providers\FilesystemProvider::class,
+            'filesystem',
             storage_path('data/images'),
         ]
     ],
@@ -73,13 +72,13 @@ return [
     |
     | Processors are used to convert images from one format to another.
     | Here you can add custom formats or transformation libraries.
-    | By default we support jpg, png and gif conversions using Intervention library
+    | By default we support jpg, and png conversions using Intervention library
     |
     */
 
     'processors' => [
-        'jpg' => \HubertNNN\Imaginator\Processors\JpegProcessor::class,
-        'png' => \HubertNNN\Imaginator\Processors\PngProcessor::class,
+        'jpg' => 'jpg',
+        'png' => 'png',
     ],
 
 

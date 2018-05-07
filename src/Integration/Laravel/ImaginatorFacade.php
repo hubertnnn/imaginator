@@ -12,6 +12,6 @@ class ImaginatorFacade extends Facade {
      */
     protected static function getFacadeAccessor()
     {
-        return 'HubertNNN\Imaginator\Contracts\Imaginator'; // the IoC binding.
+        return 'HubertNNN\Imaginator\Contracts\Provision\Imaginator'; // the IoC binding.
     }
 }
