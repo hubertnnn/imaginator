@@ -20,7 +20,7 @@ return [
     */
 
     'security' => [
-        'keyGenerator' => \HubertNNN\Imaginator\KeyGenerators\Sha1KeyGenerator::class,
+        'keyGenerator' => 'sha1',
         'masterKey' => hash('sha256', env('APP_KEY')),
     ],
 
@@ -59,11 +59,30 @@ return [
     */
 
     'providers' => [
-        'dummy' => \HubertNNN\Imaginator\Providers\DummyProvider::class,
         [
-            \HubertNNN\Imaginator\Providers\FilesystemProvider::class,
+            'filesystem',
             storage_path('data/images'),
         ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Entity provider subsystems
+    |--------------------------------------------------------------------------
+    |
+    | Classes defined in this section will be used to map entities
+    | into provider-instance pairs used in rest of the library.
+    |
+    | As always you can define multiple providers
+    | and return null from providers that do not apply to specified entity
+    |
+    | Default provider moves this responsibility to entities in form of
+    | ImageProvidingEntity interface and should fit most use cases.
+    |
+    */
+
+    'entity_providers' => [
+        'imageProvidingEntity',
     ],
 
     /*
@@ -73,13 +92,13 @@ return [
     |
     | Processors are used to convert images from one format to another.
     | Here you can add custom formats or transformation libraries.
-    | By default we support jpg, png and gif conversions using Intervention library
+    | By default we support jpg, and png conversions using Intervention library
     |
     */
 
     'processors' => [
-        'jpg' => \HubertNNN\Imaginator\Processors\JpegProcessor::class,
-        'png' => \HubertNNN\Imaginator\Processors\PngProcessor::class,
+        'jpg' => 'jpg',
+        'png' => 'png',
     ],
 
 
@@ -104,22 +123,24 @@ return [
     'formats' => [
         '*' => [
             '800x600' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 80,
                 'width' => 800,
                 'height' => 600,
+                'upscale' => true,
+                'aspectRatio' => true,
             ],
         ],
 
         'squares' => [
             'small' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 50,
                 'width' => 100,
                 'height' => 100,
             ],
             'big' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 90,
                 'width' => 1000,
                 'height' => 1000,
@@ -129,7 +150,7 @@ return [
         'avatars' => [
             'squares',
             'medium' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 70,
                 'width' => 500,
                 'height' => 500,
