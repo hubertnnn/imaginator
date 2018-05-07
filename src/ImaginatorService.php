@@ -113,6 +113,9 @@ class ImaginatorService implements ImaginatorSystem
 
     public function image($type, $instance, $format)
     {
+        if(!$this->imageFormats->hasConfig($type, $format))
+            return null;
+
         $key = $this->generateKey($type, $instance, $format);
         $extension = $this->getExtension($type, $format);
 

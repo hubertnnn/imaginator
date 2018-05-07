@@ -12,6 +12,11 @@ class ImageFormatService
         $this->formats = $formats;
     }
 
+    public function hasConfig($type, $format)
+    {
+        return ($this->getConfig($type, $format) !== null);
+    }
+
     public function getConfig($type, $format)
     {
         $formats = $this->compileFormats($type);
