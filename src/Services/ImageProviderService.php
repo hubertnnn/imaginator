@@ -2,9 +2,10 @@
 
 namespace HubertNNN\Imaginator\Services;
 
+use HubertNNN\Imaginator\Contracts\EntityImageProvider;
 use HubertNNN\Imaginator\Contracts\ImageProvider;
 
-class ImageProviderService
+class ImageProviderService implements EntityImageProvider
 {
     protected $providers = [];
 
@@ -52,6 +53,22 @@ class ImageProviderService
 
             if($image !== null) {
                 return $image;
+            }
+        }
+
+        return null;
+    }
+
+    public function getTypeAndInstance($entity, $type = null)
+    {
+        /** @var ImageProvider $provider */
+        foreach ($this->getProviders() as $provider) {
+            if($provider instanceof EntityImageProvider) {
+                $result = $provider->getTypeAndInstance($entity, $type);
+            }
+
+            if($result !== null) {
+                return $result;
             }
         }
 

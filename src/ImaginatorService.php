@@ -2,8 +2,8 @@
 
 namespace HubertNNN\Imaginator;
 
+use HubertNNN\Imaginator\Contracts\EntityImageProvider;
 use HubertNNN\Imaginator\Contracts\ImageDistributor;
-use HubertNNN\Imaginator\Contracts\ImageProvider;
 use HubertNNN\Imaginator\Contracts\ImageStorage;
 use HubertNNN\Imaginator\Contracts\ImageUrlGenerator;
 use HubertNNN\Imaginator\Contracts\ImaginatorSystem;
@@ -16,7 +16,7 @@ class ImaginatorService implements ImaginatorSystem
     /** @var KeyGenerator */
     protected $keyGenerator;
 
-    /** @var ImageProvider */
+    /** @var EntityImageProvider */
     protected $imageProvider;
 
     /** @var ImageFormatService */
@@ -111,6 +111,20 @@ class ImaginatorService implements ImaginatorSystem
         return $this->imageCache->getFileLocation($type, $instance, $format, $extension);
     }
 
+    // Provider api
+    // -----------------------------------------------------------------------------------------------------------------
+    // Public api
+
+    public function entity($entity, $format, $type)
+    {
+        $result = $this->imageProvider->getTypeAndInstance($entity, $type);
+        if($result === null)
+            return null;
+
+        list($imageType, $instance) = $result;
+        return $this->image($imageType, $instance, $format);
+    }
+
     public function image($type, $instance, $format)
     {
         if(!$this->imageFormats->hasConfig($type, $format))
@@ -121,6 +135,8 @@ class ImaginatorService implements ImaginatorSystem
 
         return $this->imageUrlGenerator->buildUrl($type, $instance, $format, $key, $extension);
     }
+
+
 
     public function test()
     {
