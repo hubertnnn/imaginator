@@ -104,7 +104,7 @@ return [
     'formats' => [
         '*' => [
             '800x600' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 80,
                 'width' => 800,
                 'height' => 600,
@@ -113,13 +113,13 @@ return [
 
         'squares' => [
             'small' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 50,
                 'width' => 100,
                 'height' => 100,
             ],
             'big' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 90,
                 'width' => 1000,
                 'height' => 1000,
@@ -129,7 +129,7 @@ return [
         'avatars' => [
             'squares',
             'medium' => [
-                'type' => 'jpg',
+                'processor' => 'jpg',
                 'quality' => 70,
                 'width' => 500,
                 'height' => 500,
