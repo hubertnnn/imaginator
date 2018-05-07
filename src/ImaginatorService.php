@@ -5,12 +5,12 @@ namespace HubertNNN\Imaginator;
 use HubertNNN\Imaginator\Contracts\ImageDistributor;
 use HubertNNN\Imaginator\Contracts\ImageProvider;
 use HubertNNN\Imaginator\Contracts\ImageStorage;
-use HubertNNN\Imaginator\Contracts\Imaginator;
+use HubertNNN\Imaginator\Contracts\ImaginatorSystem;
 use HubertNNN\Imaginator\Contracts\KeyGenerator;
 use HubertNNN\Imaginator\Services\ImageFormatService;
 use HubertNNN\Imaginator\Services\ImageProcessorService;
 
-class ImaginatorService implements Imaginator
+class ImaginatorService implements ImaginatorSystem
 {
     /** @var KeyGenerator */
     protected $keyGenerator;
@@ -104,6 +104,11 @@ class ImaginatorService implements Imaginator
     public function getCachedImage($type, $instance, $format, $extension)
     {
         return $this->imageCache->getFileLocation($type, $instance, $format, $extension);
+    }
+
+    public function image($type, $instance, $format)
+    {
+        //TODO: not implemented yet
     }
 
     public function test()
