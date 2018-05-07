@@ -52,6 +52,9 @@ abstract class BaseInterventionProcessor implements ImageProcessor
         $aspectRatio = self::parameter($formatParameters, 'aspectRatio', true);
         $upscale = self::parameter($formatParameters, 'upscale', true);
 
+        if(($width === null) and ($height === null))
+            return; // No resizing
+
         $image->resize($width, $height, function (Constraint $constraint) use($aspectRatio, $upscale) {
             if($aspectRatio)
                 $constraint->aspectRatio();
