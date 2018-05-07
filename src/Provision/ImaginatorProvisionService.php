@@ -28,7 +28,7 @@ class ImaginatorProvisionService extends ImaginatorCoreService implements Imagin
     // -----------------------------------------------------------------------------------------------------------------
     // Public API
 
-    public function entity($entity, $format, $type)
+    public function entity($entity, $format, $type = null)
     {
         $result = $this->imageProvider->getTypeAndInstance($entity, $type);
         if($result === null)

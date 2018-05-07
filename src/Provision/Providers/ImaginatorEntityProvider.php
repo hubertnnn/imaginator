@@ -1,6 +1,6 @@
 <?php
 
-namespace HubertNNN\Imaginator\EntityProviders;
+namespace HubertNNN\Imaginator\Provision\Providers;
 
 use HubertNNN\Imaginator\Contracts\Provision\ImageProvider;
 use HubertNNN\Imaginator\Contracts\Provision\ImageProvidingEntity;

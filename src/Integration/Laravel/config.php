@@ -67,6 +67,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Entity provider subsystems
+    |--------------------------------------------------------------------------
+    |
+    | Classes defined in this section will be used to map entities
+    | into provider-instance pairs used in rest of the library.
+    |
+    | As always you can define multiple providers
+    | and return null from providers that do not apply to specified entity
+    |
+    | Default provider moves this responsibility to entities in form of
+    | ImageProvidingEntity interface and should fit most use cases.
+    |
+    */
+
+    'entity_providers' => [
+        'imageProvidingEntity',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Image processors subsystems
     |--------------------------------------------------------------------------
     |

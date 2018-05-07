@@ -15,6 +15,10 @@ class ImaginatorFactory
         'filesystem' => \HubertNNN\Imaginator\Distribution\Providers\FilesystemProvider::class,
     ];
 
+    public static $entityProviders = [
+        'imageProvidingEntity' => \HubertNNN\Imaginator\Provision\Providers\ImaginatorEntityProvider::class,
+    ];
+
     public static $processors = [
         'jpg' => \HubertNNN\Imaginator\Distribution\Processors\JpegProcessor::class,
         'png' => \HubertNNN\Imaginator\Distribution\Processors\PngProcessor::class,

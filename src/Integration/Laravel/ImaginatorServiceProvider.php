@@ -10,6 +10,7 @@ use HubertNNN\Imaginator\Distribution\ImaginatorDistributionService;
 use HubertNNN\Imaginator\Distribution\Services\ImageProcessorService;
 use HubertNNN\Imaginator\Distribution\Services\ImageProviderService;
 use HubertNNN\Imaginator\Distribution\Storage\FileStorage;
+use HubertNNN\Imaginator\Services\MultiProviderService;
 use HubertNNN\Imaginator\Utilities\ClassUtils;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
@@ -45,9 +46,9 @@ class ImaginatorServiceProvider extends ServiceProvider
             $imageProcessors = ClassUtils::buildClasses($imageProcessors, ImaginatorFactory::$processors);
             $imageProcessors = new ImageProcessorService($imageProcessors);
 
-            $imageProviders = $config->get('imaginator.providers');
-            $imageProviders = ClassUtils::buildClasses($imageProviders, ImaginatorFactory::$imageProviders);
-            $imageProviders = new ImageProviderService($imageProviders);
+            $imageProviders = $config->get('imaginator.entity_providers');
+            $imageProviders = ClassUtils::buildClasses($imageProviders, ImaginatorFactory::$entityProviders);
+            $imageProviders = new MultiProviderService($imageProviders);
 
             $imageUrlGenerator = new LaravelUrlGenerator();
 
