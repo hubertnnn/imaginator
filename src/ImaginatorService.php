@@ -5,6 +5,7 @@ namespace HubertNNN\Imaginator;
 use HubertNNN\Imaginator\Contracts\ImageDistributor;
 use HubertNNN\Imaginator\Contracts\ImageProvider;
 use HubertNNN\Imaginator\Contracts\ImageStorage;
+use HubertNNN\Imaginator\Contracts\ImageUrlGenerator;
 use HubertNNN\Imaginator\Contracts\ImaginatorSystem;
 use HubertNNN\Imaginator\Contracts\KeyGenerator;
 use HubertNNN\Imaginator\Services\ImageFormatService;
@@ -30,7 +31,10 @@ class ImaginatorService implements ImaginatorSystem
     /** @var ImageDistributor */
     protected $imageDistributor;
 
-    public function __construct($imageProviderService, $imageCacheService, $imageFormatsService, $imageProcessors, $imageDistributor, $keyGenerator)
+    /** @var ImageUrlGenerator */
+    protected $imageUrlGenerator;
+
+    public function __construct($imageProviderService, $imageCacheService, $imageFormatsService, $imageProcessors, $imageDistributor, $keyGenerator, $imageUrlGenerator)
     {
         $this->imageProvider = $imageProviderService;
         $this->imageCache = $imageCacheService;
@@ -38,6 +42,7 @@ class ImaginatorService implements ImaginatorSystem
         $this->imageProcessors = $imageProcessors;
         $this->imageDistributor = $imageDistributor;
         $this->keyGenerator = $keyGenerator;
+        $this->imageUrlGenerator = $imageUrlGenerator;
     }
 
     public function generateKey($type, $instance, $format)
@@ -108,7 +113,10 @@ class ImaginatorService implements ImaginatorSystem
 
     public function image($type, $instance, $format)
     {
-        //TODO: not implemented yet
+        $key = $this->generateKey($type, $instance, $format);
+        $extension = $this->getExtension($type, $format);
+
+        return $this->imageUrlGenerator->buildUrl($type, $instance, $format, $key, $extension);
     }
 
     public function test()

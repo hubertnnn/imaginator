@@ -51,13 +51,16 @@ class ImaginatorServiceProvider extends ServiceProvider
             $masterKey = $config->get('imaginator.security.masterKey');
             $keyGenerator = new $keyGenerator($masterKey);
 
+            $imageUrlGenerator = new LaravelUrlGenerator();
+
             return new ImaginatorService(
                 $imageProviderService,
                 $imageCache,
                 $imageFormatsService,
                 $imageProcessors,
                 $imageDistributor,
-                $keyGenerator);
+                $keyGenerator,
+                $imageUrlGenerator);
         });
     }
 
