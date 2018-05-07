@@ -2,24 +2,23 @@
 
 namespace HubertNNN\Imaginator\Integration\Laravel;
 
-use HubertNNN\Imaginator\Contracts\Imaginator;
+use HubertNNN\Imaginator\Contracts\Distribution;
 use HubertNNN\Imaginator\Utilities\FileUtils;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ImaginatorController extends Controller
 {
-    public function fetch(Imaginator $imaginator, $type, $format, $instance, $key, $extension)
+    public function fetch(Distribution\Imaginator $imaginator, $type, $format, $instance, $key, $extension)
     {
-        /** @var ImaginatorService $imaginator */
-
         if(!$imaginator->validateKey($type, $instance, $format, $extension, $key)) {
-            throw new NotFoundHttpException();
+            return $imaginator->sendError();
         };
+
+        $name = $instance . '.' . $extension;
 
         $cache = $imaginator->getCachedImage($type, $instance, $format, 'tmp');
         if(file_exists($cache)) {
-            return $imaginator->send($cache);
+            return $imaginator->send($cache, $name);
         }
 
         $error = $imaginator->getCachedImage($type, $instance, $format, 'error');
@@ -37,17 +36,14 @@ class ImaginatorController extends Controller
             FileUtils::touch($processing);
             $image = $imaginator->getImage($type, $instance);
             $success = $imaginator->process($image, $cache, $type, $format);
-
-            if($success) {
-                FileUtils::delete($processing);
-                return $imaginator->send($cache);
-            } else {
-                FileUtils::touch($error);
-                FileUtils::delete($processing);
-                return $imaginator->sendError();
-            }
-
         } catch (\Exception $ex){
+            $success = false;
+        }
+
+        if($success) {
+            FileUtils::delete($processing);
+            return $imaginator->send($cache, $name);
+        } else {
             FileUtils::touch($error);
             FileUtils::delete($processing);
             return $imaginator->sendError();
